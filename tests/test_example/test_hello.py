@@ -1,22 +1,22 @@
 import pytest
 
-from python_cath.example import hello
+from python_cath.__main__ import concat
 
 
 @pytest.mark.parametrize(
-    ("name", "expected"),
+    ("files", "expected"),
     [
-        ("Jeanette", "Hello Jeanette!"),
-        ("Raven", "Hello Raven!"),
-        ("Maxine", "Hello Maxine!"),
-        ("Matteo", "Hello Matteo!"),
-        ("Destinee", "Hello Destinee!"),
-        ("Alden", "Hello Alden!"),
-        ("Mariah", "Hello Mariah!"),
-        ("Anika", "Hello Anika!"),
-        ("Isabella", "Hello Isabella!"),
+        (
+            ("tests/test_example/one", "tests/test_example/two"),
+            """c1,c2
+v1,v1
+v2,v2""",
+        ),
     ],
 )
-def test_hello(name, expected):
+def test_hello(files, expected):
     """Example test with parametrization."""
-    assert hello(name) == expected
+    concat(files, "tmpOut")
+    with open("tmpOut") as f:
+        lines = f.read().strip()
+    assert lines == expected

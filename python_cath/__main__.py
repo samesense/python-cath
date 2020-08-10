@@ -32,6 +32,7 @@ def concat(file_list, output_file):
         os.system(f"tail -n +2 {afile} >> {output_file}")
 
 
+@app.command()
 def main(
     file_list: List[str] = typer.Argument(...),
     output_file: str = typer.Argument(...),
