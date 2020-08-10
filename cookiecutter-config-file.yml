@@ -1,0 +1,10 @@
+# This file contains values from Cookiecutter
+
+default_context:
+  project_name: "python-cath"
+  project_description: "Cat files w/ headers"
+  organization: "samesense"
+  license: "MIT"
+  version: "0.1.0"
+  github_name: "samesense"
+  email: "candptea@gmail.com"
