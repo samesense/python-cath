@@ -32,10 +32,9 @@ def concat(file_list, output_file):
         os.system(f"tail -n +2 {afile} >> {output_file}")
 
 
-@app.command(name="")
 def main(
-    file_list: List[str] = typer.Argument(..., help="Name of person to greet."),
-    output_file: str = typer.Argument(..., help="Output file name"),
+    file_list: List[str] = typer.Argument(...),
+    output_file: str = typer.Argument(...),
 ):
     """Prints a greeting for a giving name."""
     concat(file_list, output_file)
