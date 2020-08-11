@@ -1,6 +1,6 @@
 import pytest
 
-from python_cath.__main__ import concat
+from python_cath.concat import concat
 
 
 @pytest.mark.parametrize(
