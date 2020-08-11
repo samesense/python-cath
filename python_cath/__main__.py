@@ -7,8 +7,8 @@ from typing import List, Optional
 import typer
 from rich.console import Console
 
-from concat import concat
 from python_cath import __version__
+from python_cath.concat import concat
 from python_cath.example import hello
 
 app = typer.Typer(
