@@ -15,7 +15,9 @@ jobs:
       uses: actions/setup-python@v2.1.2
       with:
         python-version: ${{ matrix.python-version }}
-
+      env:
+        ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+        
     - name: Install poetry
       run: make download-poetry
 
