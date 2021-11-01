@@ -42,7 +42,7 @@ pre-commit = "^2.5.1"
 darglint = "^1.4.1"
 isort = {extras = ["pyproject"], version = "^4.3.21"}
 pyupgrade = "^2.6.1"
-black = "^19.10b0"
+black = "^21.10b0"
 mypy = "^0.780"
 bandit = "^1.6.2"
 safety = "^1.9.0"
