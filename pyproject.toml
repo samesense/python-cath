@@ -40,7 +40,7 @@ pre-commit = "^2.5.1"
 
 [tool.poetry.dev-dependencies]
 darglint = "^1.4.1"
-isort = {extras = ["pyproject"], version = "^4.3.21"}
+isort = {extras = ["pyproject"], version = "^5.11.3"}
 pyupgrade = "^2.6.1"
 black = "^19.10b0"
 mypy = "^0.780"
