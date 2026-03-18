@@ -32,28 +32,27 @@ classifiers = [  # Update me
 "python-cath" = "python_cath.__main__:app"
 
 [tool.poetry.dependencies]
-python = "^3.7"
-importlib_metadata = {version = ">=1.6,<4.0", python = "<3.8"}
-typer = {extras = ["all"], version = "^0.2.1"}
-rich = ">=2.2.2,<10.0.0"
-pre-commit = "^2.5.1"
+python = "^3.8"
+typer = {extras = ["all"], version = "^0.9.0"}
+rich = ">=10.0.0"
+pre-commit = "^3.0.0"
 
 [tool.poetry.dev-dependencies]
-darglint = "^1.4.1"
-isort = {extras = ["pyproject"], version = "^4.3.21"}
-pyupgrade = "^2.6.1"
-black = "^19.10b0"
-mypy = "^0.780"
-bandit = "^1.6.2"
-safety = "^1.9.0"
-pytest = "^6.1.2"
-pylint = "^2.5.3"
-pydocstyle = "^5.0.2"
+darglint = "^1.8.1"
+isort = {extras = ["pyproject"], version = "^5.10.0"}
+pyupgrade = "^3.3.0"
+black = "^24.0.0"
+mypy = "^1.0"
+bandit = "^1.7.0"
+safety = "^2.0.0"
+pytest = "^7.0.0"
+pylint = "^3.0.0"
+pydocstyle = "^6.0.0"
 
 [tool.black]
 # https://github.com/psf/black
 line-length = 80
-target-version = ["py37"]
+target-version = ["py38", "py39", "py310", "py311", "py312"]
 
 [tool.isort]
 # https://github.com/timothycrosley/isort/
