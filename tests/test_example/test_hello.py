@@ -18,3 +18,13 @@ def test_hello(vals, expected):
     with open("tmpOut") as f:
         lines = f.read().strip()
     assert lines == expected
+
+
+def test_mismatched_headers():
+    """Concat raises ValueError when file headers differ."""
+    with open("one", "w") as fout:
+        print("c1,c2\nv1,v1", file=fout)
+    with open("two", "w") as fout:
+        print("a,b\nv2,v2", file=fout)
+    with pytest.raises(ValueError, match="Headers do not match"):
+        concat(("one", "two"), "tmpOut")
