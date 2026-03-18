@@ -1,4 +1,4 @@
-# type: ignore[attr-defined]
+# mypy: disable-error-code="attr-defined"
 
 import random
 from enum import Enum
@@ -12,12 +12,14 @@ from python_cath.concat import concat
 from python_cath.example import hello
 
 app = typer.Typer(
-    name="python-cath", help="Cat files w/ headers", add_completion=False,
+    name="python-cath",
+    help="Cat files w/ headers",
+    add_completion=False,
 )
 console = Console()
 
 
-def version_callback(value: bool):
+def version_callback(value: bool) -> None:
     """Prints the version of the package."""
     if value:
         console.print(
@@ -30,6 +32,6 @@ def version_callback(value: bool):
 def main(
     file_list: List[str] = typer.Argument(...),
     output_file: str = typer.Argument(...),
-):
+) -> None:
     """Prints a greeting for a giving name."""
     concat(file_list, output_file)
