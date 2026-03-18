@@ -25,11 +25,11 @@ jobs:
       uses: actions/cache@v4
       with:
         path: .venv
-        key: venv-${{ matrix.python-version }}-${{ hashFiles('pyproject.toml') }}-${{ hashFiles('poetry.lock') }}
+        key: venv-${{ matrix.python-version }}-${{ hashFiles('pyproject.toml') }}
     - name: Install dependencies
       run: |
         poetry config virtualenvs.in-project true
-        poetry install
+        poetry install --no-interaction
 
     - name: Run safety checks
       run: STRICT=1 make check-safety
