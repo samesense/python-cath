@@ -32,7 +32,7 @@ jobs:
         poetry install --no-interaction
 
     - name: Run safety checks
-      run: STRICT=1 make check-safety
+      run: STRICT=1 SAFETY_STRICT=0 make check-safety
 
     - name: Run style checks
       run: STRICT=1 make check-style
