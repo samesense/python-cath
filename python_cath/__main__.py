@@ -1,15 +1,15 @@
 # mypy: disable-error-code="attr-defined"
 
-import random
-from enum import Enum
 from typing import List, Optional
 
-import typer
-from rich.console import Console
+import random
+from enum import Enum
 
+import typer
 from python_cath import __version__
 from python_cath.concat import concat
 from python_cath.example import hello
+from rich.console import Console
 
 app = typer.Typer(
     name="python-cath",

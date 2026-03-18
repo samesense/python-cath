@@ -1,5 +1,4 @@
 import pytest
-
 from python_cath.concat import concat
 
 
