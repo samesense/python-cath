@@ -1,14 +1,10 @@
 # mypy: disable-error-code="attr-defined"
 
-from typing import List, Optional
-
-import random
-from enum import Enum
+from typing import List
 
 import typer
 from python_cath import __version__
 from python_cath.concat import concat
-from python_cath.example import hello
 from rich.console import Console
 
 app = typer.Typer(
@@ -33,5 +29,5 @@ def main(
     file_list: List[str] = typer.Argument(...),
     output_file: str = typer.Argument(...),
 ) -> None:
-    """Prints a greeting for a giving name."""
+    """Concatenate CSV files with a shared header into output_file."""
     concat(file_list, output_file)
