@@ -30,3 +30,9 @@ def test_mismatched_headers(tmp_path):
     two.write_text("a,b\nv2,v2\n")
     with pytest.raises(ValueError, match="Headers do not match"):
         concat((str(one), str(two)), str(tmp_path / "out"))
+
+
+def test_empty_file_list(tmp_path):
+    """Concat raises ValueError when given an empty file list."""
+    with pytest.raises(ValueError, match="must not be empty"):
+        concat([], str(tmp_path / "out"))
