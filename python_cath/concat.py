@@ -1,7 +1,49 @@
 import os
+import shutil
 
 
 def concat(file_list, output_file):
-    os.system(f"head -1 {file_list[0]} > {output_file}")
+    """Concatenate CSV files that share the same header.
+
+    Args:
+        file_list: Paths to input files.
+        output_file: Path to write the concatenated output.
+
+    Raises:
+        ValueError: If no input files are provided, any file has an empty
+            header, an input file path collides with the output file, or
+            file headers differ.
+    """
+    file_list = list(file_list)
+    if not file_list:
+        raise ValueError("file_list must not be empty")
+
+    real_output = os.path.realpath(output_file)
     for afile in file_list:
-        os.system(f"tail -n +2 {afile} >> {output_file}")
+        if os.path.realpath(afile) == real_output:
+            raise ValueError(
+                f"Input file {afile!r} is the same path as the output file"
+            )
+
+    # First pass: read and validate headers one file at a time
+    file_headers = {}
+    for afile in file_list:
+        with open(afile, encoding="utf-8") as fh:
+            header = fh.readline().rstrip("\n")
+        if not header:
+            raise ValueError(f"File {afile!r} has an empty or missing header")
+        file_headers[afile] = header
+
+    unique_headers = set(file_headers.values())
+    if len(unique_headers) > 1:
+        detail = ", ".join(f"{f!r}: {h!r}" for f, h in file_headers.items())
+        raise ValueError(f"Headers do not match: {detail}")
+
+    # Second pass: write output one file at a time
+    shared_header = next(iter(unique_headers))
+    with open(output_file, "w", encoding="utf-8") as out:
+        out.write(shared_header + "\n")
+        for afile in file_list:
+            with open(afile, encoding="utf-8") as fh:
+                fh.readline()  # skip header
+                shutil.copyfileobj(fh, out)

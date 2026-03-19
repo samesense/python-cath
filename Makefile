@@ -43,7 +43,7 @@ endif
 
 ifeq ($(SAFETY_STRICT), 1)
 	SAFETY_COMMAND_FLAG =
-else ifeq ($SAFETY_STRICT), 0)
+else ifeq ($(SAFETY_STRICT), 0)
 	SAFETY_COMMAND_FLAG = -
 endif
 
@@ -67,7 +67,7 @@ endif
 
 ifeq ($(DARGLINT_STRICT), 1)
 	DARGLINT_COMMAND_FLAG =
-else ifeq (DARGLINT_STRICT), 0)
+else ifeq ($(DARGLINT_STRICT), 0)
 	DARGLINT_COMMAND_FLAG = -
 endif
 
@@ -88,7 +88,7 @@ endif
 
 .PHONY: download-poetry
 download-poetry:
-	curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
+	curl -sSL https://install.python-poetry.org | python3 -
 
 .PHONY: install
 install:
@@ -108,8 +108,8 @@ check-safety:
 .PHONY: check-style
 check-style:
 	$(BLACK_COMMAND_FLAG)poetry run black --config pyproject.toml --diff --check ./
-	$(DARGLINT_COMMAND_FLAG)poetry run darglint -v 2 **/*.py
-	$(ISORT_COMMAND_FLAG)poetry run isort --settings-path pyproject.toml --check-only
+	$(DARGLINT_COMMAND_FLAG)find . -name "*.py" -not -path "./.venv/*" -not -path "./build/*" -print0 | xargs -0 poetry run darglint -v 2
+	$(ISORT_COMMAND_FLAG)poetry run isort --settings-path pyproject.toml --check-only .
 	$(MYPY_COMMAND_FLAG)poetry run mypy --config-file setup.cfg python_cath tests/**/*.py
 
 .PHONY: codestyle
