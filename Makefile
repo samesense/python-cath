@@ -108,7 +108,7 @@ check-safety:
 .PHONY: check-style
 check-style:
 	$(BLACK_COMMAND_FLAG)poetry run black --config pyproject.toml --diff --check ./
-	$(DARGLINT_COMMAND_FLAG)poetry run darglint -v 2 $(shell find . -name "*.py" -not -path "./.venv/*" -not -path "./build/*")
+	$(DARGLINT_COMMAND_FLAG)find . -name "*.py" -not -path "./.venv/*" -not -path "./build/*" -print0 | xargs -0 poetry run darglint -v 2
 	$(ISORT_COMMAND_FLAG)poetry run isort --settings-path pyproject.toml --check-only .
 	$(MYPY_COMMAND_FLAG)poetry run mypy --config-file setup.cfg python_cath tests/**/*.py
 

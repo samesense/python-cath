@@ -27,7 +27,10 @@ def concat(file_list, output_file):
             )
 
     with contextlib.ExitStack() as stack:
-        handles = [stack.enter_context(open(afile)) for afile in file_list]
+        handles = [
+            stack.enter_context(open(afile, encoding="utf-8"))
+            for afile in file_list
+        ]
         file_headers = {}
         for afile, fh in zip(file_list, handles):
             header = fh.readline().rstrip("\n")
@@ -42,7 +45,7 @@ def concat(file_list, output_file):
             detail = ", ".join(f"{f!r}: {h!r}" for f, h in file_headers.items())
             raise ValueError(f"Headers do not match: {detail}")
 
-        with open(output_file, "w") as out:
+        with open(output_file, "w", encoding="utf-8") as out:
             out.write(next(iter(unique_headers)) + "\n")
             for fh in handles:
                 shutil.copyfileobj(fh, out)
