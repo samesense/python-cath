@@ -36,3 +36,19 @@ def test_empty_file_list(tmp_path):
     """Concat raises ValueError when given an empty file list."""
     with pytest.raises(ValueError, match="must not be empty"):
         concat([], str(tmp_path / "out"))
+
+
+def test_empty_header(tmp_path):
+    """Concat raises ValueError when a file has an empty header."""
+    one = tmp_path / "one"
+    one.write_text("\nv1,v1\n")
+    with pytest.raises(ValueError, match="empty or missing header"):
+        concat([str(one)], str(tmp_path / "out"))
+
+
+def test_output_collides_with_input(tmp_path):
+    """Concat raises ValueError when output path matches an input path."""
+    one = tmp_path / "one"
+    one.write_text("c1,c2\nv1,v1\n")
+    with pytest.raises(ValueError, match="same path as the output"):
+        concat([str(one)], str(one))
