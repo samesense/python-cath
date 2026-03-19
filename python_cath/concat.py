@@ -1,4 +1,3 @@
-import contextlib
 import os
 import shutil
 
@@ -26,26 +25,25 @@ def concat(file_list, output_file):
                 f"Input file {afile!r} is the same path as the output file"
             )
 
-    with contextlib.ExitStack() as stack:
-        handles = [
-            stack.enter_context(open(afile, encoding="utf-8"))
-            for afile in file_list
-        ]
-        file_headers = {}
-        for afile, fh in zip(file_list, handles):
+    # First pass: read and validate headers one file at a time
+    file_headers = {}
+    for afile in file_list:
+        with open(afile, encoding="utf-8") as fh:
             header = fh.readline().rstrip("\n")
-            if not header:
-                raise ValueError(
-                    f"File {afile!r} has an empty or missing header"
-                )
-            file_headers[afile] = header
+        if not header:
+            raise ValueError(f"File {afile!r} has an empty or missing header")
+        file_headers[afile] = header
 
-        unique_headers = set(file_headers.values())
-        if len(unique_headers) > 1:
-            detail = ", ".join(f"{f!r}: {h!r}" for f, h in file_headers.items())
-            raise ValueError(f"Headers do not match: {detail}")
+    unique_headers = set(file_headers.values())
+    if len(unique_headers) > 1:
+        detail = ", ".join(f"{f!r}: {h!r}" for f, h in file_headers.items())
+        raise ValueError(f"Headers do not match: {detail}")
 
-        with open(output_file, "w", encoding="utf-8") as out:
-            out.write(next(iter(unique_headers)) + "\n")
-            for fh in handles:
+    # Second pass: write output one file at a time
+    shared_header = next(iter(unique_headers))
+    with open(output_file, "w", encoding="utf-8") as out:
+        out.write(shared_header + "\n")
+        for afile in file_list:
+            with open(afile, encoding="utf-8") as fh:
+                fh.readline()  # skip header
                 shutil.copyfileobj(fh, out)
