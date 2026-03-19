@@ -32,7 +32,9 @@ def concat(file_list, output_file):
         for afile, fh in zip(file_list, handles):
             header = fh.readline().rstrip("\n")
             if not header:
-                raise ValueError(f"File {afile!r} has an empty or missing header")
+                raise ValueError(
+                    f"File {afile!r} has an empty or missing header"
+                )
             file_headers[afile] = header
 
         unique_headers = set(file_headers.values())
