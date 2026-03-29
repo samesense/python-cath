@@ -11,6 +11,8 @@ app = typer.Typer(
     name="python-cath",
     help="Cat files w/ headers",
     add_completion=False,
+    invoke_without_command=True,
+    no_args_is_help=True,
 )
 console = Console()
 
