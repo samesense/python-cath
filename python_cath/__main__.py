@@ -11,6 +11,8 @@ app = typer.Typer(
     name="python-cath",
     help="Cat files w/ headers",
     add_completion=False,
+    invoke_without_command=True,
+    no_args_is_help=True,
 )
 console = Console()
 
@@ -27,7 +29,9 @@ def version_callback(value: bool) -> None:
 @app.command()
 def main(
     file_list: List[str] = typer.Argument(...),
-    output_file: str = typer.Argument(...),
+    output_file: str = typer.Option(
+        ..., "--output", "-o", help="Output file path"
+    ),
 ) -> None:
     """Concatenate CSV files with a shared header into output_file."""
     concat(file_list, output_file)
