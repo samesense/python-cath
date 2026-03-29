@@ -29,7 +29,9 @@ def version_callback(value: bool) -> None:
 @app.command()
 def main(
     file_list: List[str] = typer.Argument(...),
-    output_file: str = typer.Option(..., "--output", "-o", help="Output file path"),
+    output_file: str = typer.Option(
+        ..., "--output", "-o", help="Output file path"
+    ),
 ) -> None:
     """Concatenate CSV files with a shared header into output_file."""
     concat(file_list, output_file)
