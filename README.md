@@ -34,7 +34,7 @@ python-cath --help
 ```
 
 ```bash
-python-cath file1 file2 --output outfile
+python-cath file1 file2 outfile
 ```
 
 or if installed with `Poetry`:
@@ -44,7 +44,7 @@ poetry run python-cath --help
 ```
 
 ```bash
-poetry run python-cath file1 file2 --output outfile
+poetry run python-cath file1 file2 outfile
 ```
 
 ### Makefile usage

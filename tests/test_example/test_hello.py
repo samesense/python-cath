@@ -1,5 +1,9 @@
 import pytest
+from python_cath.__main__ import app
 from python_cath.concat import concat
+from typer.testing import CliRunner
+
+runner = CliRunner()
 
 
 @pytest.mark.parametrize(
@@ -52,3 +56,28 @@ def test_output_collides_with_input(tmp_path):
     one.write_text("c1,c2\nv1,v1\n")
     with pytest.raises(ValueError, match="same path as the output"):
         concat([str(one)], str(one))
+
+
+def test_cli_last_arg_is_output(tmp_path):
+    """The CLI treats the final positional argument as the output file."""
+    one = tmp_path / "one"
+    two = tmp_path / "two"
+    out = tmp_path / "out"
+    one.write_text("c1,c2\nv1,v1\n")
+    two.write_text("c1,c2\nv2,v2\n")
+    result = runner.invoke(app, [str(one), str(two), str(out)])
+    assert result.exit_code == 0
+    assert out.read_text().strip() == "c1,c2\nv1,v1\nv2,v2"
+
+
+def test_cli_two_files_errors_without_overwriting(tmp_path):
+    """With only two files there is one input; the CLI must error instead of
+    overwriting the second file (the would-be output)."""
+    one = tmp_path / "one"
+    two = tmp_path / "two"
+    one.write_text("c1,c2\nv1,v1\n")
+    two.write_text("c1,c2\nv2,v2\n")
+    result = runner.invoke(app, [str(one), str(two)])
+    assert result.exit_code != 0
+    # The second file must be left untouched, not overwritten by the cat.
+    assert two.read_text() == "c1,c2\nv2,v2\n"

@@ -28,10 +28,27 @@ def version_callback(value: bool) -> None:
 
 @app.command()
 def main(
-    file_list: List[str] = typer.Argument(...),
-    output_file: str = typer.Option(
-        ..., "--output", "-o", help="Output file path"
+    files: List[str] = typer.Argument(
+        ...,
+        help="Two or more input files followed by the output file "
+        "(the last argument is the output).",
     ),
 ) -> None:
-    """Concatenate CSV files with a shared header into output_file."""
-    concat(file_list, output_file)
+    """Concatenate CSV files with a shared header.
+
+    Provide two or more input files followed by the output file as the
+    final argument, e.g. ``python-cath in1 in2 out``.
+    """
+    if len(files) < 3:
+        console.print(
+            "[red]Error:[/] need at least two input files plus an output "
+            "file; the last argument is the output and would otherwise "
+            "overwrite an input.",
+        )
+        raise typer.Exit(code=2)
+    *input_files, output_file = files
+    concat(input_files, output_file)
+
+
+if __name__ == "__main__":
+    app()
