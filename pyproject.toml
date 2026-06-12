@@ -6,7 +6,7 @@ build-backend = "poetry.masonry.api"
 
 [tool.poetry]
 name = "python-cath"
-version = "0.4.0"
+version = "0.4.1"
 description = "Cat files w/ headers"
 readme = "README.md"
 authors = [
